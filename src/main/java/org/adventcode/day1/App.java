@@ -26,8 +26,6 @@ public class App {
     }
 
     public static void main(String[] args) {
-
-
         try (InputStream inputStream = App.class.getResourceAsStream("input.txt")) {
 
             assert inputStream != null;
