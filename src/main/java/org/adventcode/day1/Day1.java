@@ -1,14 +1,17 @@
 package org.adventcode.day1;
 
+import org.adventcode.common.FileReaderHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
-public class App {
-    private static final Logger logger = LoggerFactory.getLogger(App.class);
+public class Day1 {
+    private static final Logger logger = LoggerFactory.getLogger(Day1.class);
 
     private static final Map<String, Character> digitMapping = Map.of(
             "one", '1',
@@ -64,8 +67,8 @@ public class App {
                 lastDigit = currChar;
             }
 
-            for (int j = i; j < Math.min(i+5, line.length()); j++) {
-                String currSubString = line.substring(i, j+1);
+            for (int j = i; j < Math.min(i + 5, line.length()); j++) {
+                String currSubString = line.substring(i, j + 1);
                 if (digitMapping.containsKey(currSubString)) {
                     if (firstDigit == null) firstDigit = digitMapping.get(currSubString);
                     lastDigit = digitMapping.get(currSubString);
@@ -73,34 +76,27 @@ public class App {
             }
         }
 
-        return firstDigit == null ? 0: Integer.parseInt(firstDigit + "" + lastDigit);
+        return firstDigit == null ? 0 : Integer.parseInt(firstDigit + "" + lastDigit);
     }
 
 
     public static void main(String[] args) {
 
+        String filename = "input.txt";
+        List<String> fileContent = new ArrayList<>();
+        Consumer<List<String>> addToList = fileContent::addAll;
 
-        try (InputStream inputStream = App.class.getResourceAsStream("input.txt")) {
+        var response = FileReaderHelper.readFile(Day1.class, filename);
+        response.ifPresentOrElse(addToList, () -> FileReaderHelper.triggerException(filename));
 
-            assert inputStream != null;
-            InputStreamReader reader = new InputStreamReader(inputStream);
+        int total = 0;
 
-            int total = 0;
-            String line;
-
-            BufferedReader br = new BufferedReader(reader);
-            while ((line = br.readLine()) != null) {
-                total += computeLine.apply(line, 2);
-            }
-
-            String fmt = String.format("The total calibration values are .... %d", total);
-            logger.info(fmt);
-
-        } catch (FileNotFoundException e) {
-            logger.error(e.getMessage());
-        } catch (IOException e) {
-            logger.error("Error Reading file: {}", e.getMessage());
+        for (String line : fileContent) {
+            total += computeLine.apply(line, 2);
         }
+
+        String fmt = String.format("The total calibration values are .... %d", total);
+        logger.info(fmt);
     }
 }
 
