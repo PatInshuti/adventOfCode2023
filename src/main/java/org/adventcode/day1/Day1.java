@@ -1,6 +1,6 @@
 package org.adventcode.day1;
 
-import org.adventcode.common.FileReaderHelper;
+import org.adventcode.common.FileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,8 +86,8 @@ public class Day1 {
         List<String> fileContent = new ArrayList<>();
         Consumer<List<String>> addToList = fileContent::addAll;
 
-        var response = FileReaderHelper.readFile(Day1.class, filename);
-        response.ifPresentOrElse(addToList, () -> FileReaderHelper.triggerException(filename));
+        var response = FileReader.readFile(Day1.class, filename);
+        response.ifPresentOrElse(addToList, () -> FileReader.triggerException(filename));
 
         int total = 0;
 

@@ -14,11 +14,11 @@ import java.util.Optional;
  * author: patrick
  * */
 
-public class FileReaderHelper {
+public class FileReader {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileReaderHelper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileReader.class);
 
-    private FileReaderHelper() {
+    private FileReader() {
     }
 
     public static void triggerException(String filename) {
